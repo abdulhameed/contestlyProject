@@ -1,0 +1,601 @@
+
+
+
+<a class="btn btn-secondary btn-sm mb-3" href="{% url 'contest:contest-list' %}">Back To Contest</a>
+
+<h1 class="text-center mb-3">Contest: {{ contestants.contest.name }} </h1>
+
+<h3 class="text-center mb-3">Contestant: {{ contestants.name }} </h3>
+
+{% if error_message %}
+<p class="alert alert-danger">
+    <strong>{{ error_message }}</strong>
+</p>
+{% endif %}
+
+
+<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+<div class="row">
+    <div class="col-sm-8"><span>
+
+
+
+        <p>You are about to cast {{ vote }} vote for {{ contestants.name }} at the rate of {{ contestants.contest.vote_cost }} <br>
+        You will be charged {{ total_cost }}
+        </p>
+
+        <div class="product__details__widget">
+                            <ul>
+
+								<li>
+                                    <span>Contestant:</span>
+                                    <p>{{ contestants.name }}</p>
+                                </li>
+
+								<li>
+                                    <span>Amount of Vote:</span>
+                                    <p>{{ vote }}</p>
+                                </li>
+
+								<li>
+                                    <span>Rate:</span>
+                                    <p>₦ {{ contestants.contest.vote_cost }}</p>
+                                </li>
+
+                                <li>
+                                    <span>Total Cost:</span>
+                                    <p>₦ {{ total_cost }}</p>
+                                </li>
+                            </ul>
+                        </div>
+
+        <div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <!-- Include the PayStack JavaScript SDK -->
+                <script
+                src="https://js.paystack.co/v1/inline.js"
+                data-key="{{paystack.public_key}}"
+                data-email="{{paystack.email}}"
+                data-amount="{{ paystack.amount }}"
+                data-ref="{{ paystack.reference }}"
+                data-currency="{{ currency }}">
+                </script>
+            </form>
+
+        </div>
+
+
+  </span></div>
+    <div class="col-sm-4">
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="input-group bootstrap-touchspin custom-vote">
+
+<span class="input-group-btn bootstrap-touchspin-injected">
+<button class="btn btn-primary bootstrap-touchspin-down" id="decrease" onclick="decreaseValue()" value="Decrease Value" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+</span>
+
+<input type="number" maxlength="6" size="5" class="touchspin form-control custom-count" id="number" value="150">
+
+<span class="input-group-btn bootstrap-touchspin-injected">
+<button class="btn btn-primary bootstrap-touchspin-up" id="increase" onclick="increaseValue()" value="Increase Value" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+</span>
+
+</div>
+
+
+
+
+
+
+<div class="custom-vote input-group bootstrap-touchspin" style="display: none;">
+    <span class="input-group-btn bootstrap-touchspin-injected">
+        <button class="value-button btn btn-primary bootstrap-touchspin-down" id="decrease" onclick="decreaseValue()" value="Decrease Value" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+
+    </span>
+        <input type="number" maxlength="6" size="5" class="touchspin form-control custom-count" id="number" value="0">
+
+    <span class="input-group-btn bootstrap-touchspin-injected">
+        <button class="value-button btn btn-primary bootstrap-touchspin-up" id="increase" onclick="increaseValue()" value="Increase Value" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function increaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value++;
+      document.getElementById('number').value = value;
+    }
+
+
+    function decreaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value < 1 ? value = 1 : '';
+      value--;
+      document.getElementById('number').value = value;
+    }
+
+
+
+
+
+
+
+
+
+create-contest
+
+{% url 'contest:results' contest.id %}
+
+{% url 'contest:create-contest' %}
+
+{% url 'contest:contest-list' %}
+
+{% url 'contest:new-contestant' contest.id %}
+
+
+
+
+$(document).ready(function() {
+    $("input[class$='custom-vote']").click(function() {
+        var trig = $(this).val();
+
+        $("div.custom-vote").show();
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Blog Section Begin -->
+    <section class="blog spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic large__item set-bg" data-setbg="img/blog/blog-1.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">No Bad Blood! The Reason Why Tamr Judge Finally Made Up With...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-7.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">Pot Party! See Farrah Abraham Flaunt Smoking Body At...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-9.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">CMT Awards 2019 Red Carpet Arrivals Carrie Underwood, Sheryl...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">Amf Cannes Red Carpet Celebrities Kendall Jenner, Pamela...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-4.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">Ireland Baldwin Shows Off Trendy Ilse Valfre Tattoo At Stagecoach...</a>
+                            </h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-8.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">Kim Kardashian Steps Out In Paris Wearing Shocking Sparkly...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-10.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">A-list Battle! Angelina Jolie & Lady Gaga Fighting Over Who...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-3.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">Gigi Hadid, Rita Ora, Serena & Other Hot Celebs Stun At 2019...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-5.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">Billboard Music Awards: Best, Worst & Wackiest Dresses On The...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__item">
+                        <div class="blog__item__pic large__item set-bg" data-setbg="img/blog/blog-6.jpg"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="#">Stephanie Pratt Busts Out Of Teeny Black Bikini During Hawaii...</a></h6>
+                            <ul>
+                                <li>by <span>Ema Timahe</span></li>
+                                <li>Seb 17, 2019</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <a href="#" class="primary-btn load-btn">Load more posts</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Section End -->
+
+
+
+
+
+<div class="popular-car-gird">
+                                <!-- Single Popular Car Start -->
+                                <div class="col-lg-4 col-md-6 hat sedan">
+                                    <div class="single-popular-car">
+                                        <div class="p-car-thumbnails">
+                                            <a class="car-hover" href="{% url 'contest:results' contest.id %}">
+                                                <img src="{{ contest.photo.url }}" alt="Car Photo" style="width:330px;height:206.25px;">
+                                            </a>
+                                        </div>
+
+                                        <div class="p-car-content">
+                                            <h3 style="width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                <a href="{% url 'contest:results' contest.id %}"> {{ contest.name }} </a>
+                                                <span class="price"><i class="fa fa-tag"></i>
+                                                  {% if contest.cash_vote %}
+                                                  ₦{{ contest.vote_cost }}/Vote</span>
+                                                  {% else %}
+                                                  FREE
+                                                  {% endif %}
+                                            </h3>
+
+                                            <h5>{{contest.start_date}} - {{contest.end_date}}</h5>
+
+                                            <div class="p-car-feature">
+                                                <a href="#">{{ contest.category }}</a>
+                                                <a href="#">|</a>
+                                                <a href="#">|</a>
+                                            </div>
+                                        </div>
+                                        <!-- BUTTON TO TRIGGER THE RENT REQUEST MODAL FORM -->
+                                        <p>
+
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <!-- Single Popular Car End -->
+
+                              </div>
+
+
+
+
+
+
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <br>
+    <h4>Bootstrap 4 and CCS3 Product Cards with Transition - Techhowdy(demonguru18) - Lyoid Lopes</h2>
+	<br>
+	<div class="row" id="ads">
+    <!-- Category Card -->
+    <div class="col-md-4">
+        <div class="card rounded">
+            <div class="card-image">
+                <span class="card-notify-badge">Low KMS</span>
+                <span class="card-notify-year">2018</span>
+                <img class="img-fluid" src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=USC80HOC011A021001.jpg&width=440&height=262" alt="Alternate Text" />
+            </div>
+            <div class="card-image-overlay m-auto">
+                <span class="card-detail-badge">Used</span>
+                <span class="card-detail-badge">$28,000.00</span>
+                <span class="card-detail-badge">13000 Kms</span>
+            </div>
+            <div class="card-body text-center">
+                <div class="ad-title m-auto">
+                    <h5>Honda Accord LX</h5>
+                </div>
+                <a class="ad-btn" href="#">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card rounded">
+            <div class="card-image">
+                <span class="card-notify-badge">Fully-Loaded</span>
+                <span class="card-notify-year">2017</span>
+                <img class="img-fluid" src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=CAC80HOC021B121001.jpg&width=440&height=262" alt="Alternate Text" />
+            </div>
+            <div class="card-image-overlay m-auto">
+                <span class="card-detail-badge">Used</span>
+                <span class="card-detail-badge">$28,000.00</span>
+                <span class="card-detail-badge">13000 Kms</span>
+            </div>
+            <div class="card-body text-center">
+                <div class="ad-title m-auto">
+                    <h5>Honda CIVIC HATCHBACK LS</h5>
+                </div>
+                <a class="ad-btn" href="#">View</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card rounded">
+            <div class="card-image">
+                <span class="card-notify-badge">Price Reduced</span>
+                <span class="card-notify-year">2018</span>
+                <img class="img-fluid" src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=USC80HOC091A021001.jpg&width=440&height=262" alt="Alternate Text" />
+            </div>
+            <div class="card-image-overlay m-auto">
+                <span class="card-detail-badge">Used</span>
+                <span class="card-detail-badge">$22,000.00</span>
+                <span class="card-detail-badge">8000 Kms</span>
+            </div>
+            <div class="card-body text-center">
+                <div class="ad-title m-auto">
+                    <h5>Honda Accord Hybrid LT</h5>
+                </div>
+                <a class="ad-btn" href="#">View</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="{% url 'contest:paid_vote_view' contestants.id %}" method="get" novalidate class="form-inline">
+                {% csrf_token %}
+                <div>
+
+                    <div class="custom-control custom-radio mb-3">
+                        <input name="votes" value="1" class="custom-control-input fixed-vote" id="1vote" type="radio">
+                        <label class="custom-control-label" for="1vote">1 Vote</label>
+                    </div>
+
+                    <div class="custom-control custom-radio mb-3">
+                        <input name="votes" value="10" class="custom-control-input fixed-vote" id="10vote" type="radio">
+                        <label class="custom-control-label" for="10vote">10 Vote</label>
+                    </div>
+
+                    <div class="custom-control custom-radio mb-3">
+                        <input name="votes" value="100" class="custom-control-input fixed-vote" id="100vote" type="radio">
+                        <label class="custom-control-label" for="100vote">100 Vote</label>
+                    </div>
+
+                    <div class="custom-control custom-radio mb-3">
+                        <input name="votes" value="0" class="custom-control-input custom-vote" id="custom" type="radio">
+                        <label class="custom-control-label" for="custom">Custom Vote</label>
+                    </div>
+
+            <div class="custom-vote" style="display: none;">
+
+                    <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+                        <input type="number" class="custom-count" id="number" value="0" />
+                    <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+            </div>
+
+                <div class="book-button text-center">
+
+                    <button class="btn btn-primary" type="submit">Vote</button>
+
+            </div>
+
+
+
+    </div>
+    </form>
+
+
+
+
+
+
+
+
+
+<div class="custom-vote input-group bootstrap-touchspin" style="display: none;">
+    <span class="input-group-btn bootstrap-touchspin-injected">
+        <button class="value-button btn btn-primary bootstrap-touchspin-down" id="decrease" onclick="decreaseValue()" value="Decrease Value" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+
+    </span><input type="number" class="touchspin form-control custom-count" id="number" value="0">
+
+    <span class="input-group-btn bootstrap-touchspin-injected">
+        <button class="value-button btn btn-primary bootstrap-touchspin-up" id="increase" onclick="increaseValue()" value="Increase Value" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

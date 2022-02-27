@@ -1,0 +1,170 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+
+    {% block page-css %}  {% endblock %}
+
+{% block content %}
+
+
+
+ <!-- BEGIN: Content-->
+    <div class="app-content content ecommerce-application">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-header row">
+<!--                -->
+                <div class="row text-center">
+                    {% if messages %}
+                        {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                        {% endfor %}
+                {% endif %}
+                </div>
+<!--                -->
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-start mb-0">Payment</h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'contest:contest-list' %}">Contest List</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'contest:results' contestants.contest.id %}">Contest Details</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Contestant Details
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                    <div class="mb-1 breadcrumb-right">
+
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- app e-commerce details start -->
+                <section class="app-ecommerce-details">
+                    <div class="card">
+                        <!-- Product Details starts -->
+                        <div class="card-body">
+                            <div class="row my-2">
+
+
+                                <a class="btn btn-secondary btn-sm mb-3" href="{% url 'contest:contest-list' %}">Back To Contest</a>
+
+<h1 class="text-center mb-3">Contest: {{ contestants.contest.name }} </h1>
+
+<h3 class="text-center mb-3">Contestant: {{ contestants.name }} </h3>
+
+{% if error_message %}
+<p class="alert alert-danger">
+    <strong>{{ error_message }}</strong>
+</p>
+{% endif %}
+
+
+<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+<div class="row">
+    <div class="col-sm-8"><span>
+
+
+
+        <p>You are about to cast {{ vote }} vote for {{ contestants.name }} at the rate of {{ contestants.contest.vote_cost }} <br>
+        You will be charged {{ total_cost }}
+        </p>
+
+        <div class="product__details__widget">
+                            <ul>
+
+								<li>
+                                    <span>Contestant:</span>
+                                    <p>{{ contestants.name }}</p>
+                                </li>
+
+								<li>
+                                    <span>Amount of Vote:</span>
+                                    <p>{{ vote }}</p>
+                                </li>
+
+								<li>
+                                    <span>Rate:</span>
+                                    <p>₦ {{ contestants.contest.vote_cost }}</p>
+                                </li>
+
+                                <li>
+                                    <span>Total Cost:</span>
+                                    <p>₦ {{ total_cost }}</p>
+                                </li>
+                            </ul>
+                        </div>
+
+        <div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <!-- Include the PayStack JavaScript SDK -->
+                <script
+                src="https://js.paystack.co/v1/inline.js"
+                data-key="{{paystack.public_key}}"
+                data-email="{{paystack.email}}"
+                data-amount="{{ paystack.amount }}"
+                data-ref="{{ paystack.reference }}"
+                data-currency="{{ currency }}">
+                </script>
+            </form>
+
+        </div>
+
+
+  </span></div>
+    <div class="col-sm-4">
+
+
+
+
+  </div>
+</div>
+
+                            </div>
+                        </div>
+                        <!-- Product Details ends -->
+
+                        <!-- Item features starts -->
+                       <div class="item-features">
+
+                        </div>
+                        <!-- Item features ends -->
+
+                    </div>
+                </section>
+                <!-- app e-commerce details end -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+
+<div style="padding-top: 30px;" class="row"></div>
+                        <!-- Item features ends -->
+
+
+                    </div>
+                </section>
+                <!-- app e-commerce details end -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+
+{% endblock %}

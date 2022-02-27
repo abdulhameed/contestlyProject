@@ -1,0 +1,150 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+{% block page-css %}
+
+textarea#id_brief_post {
+    resize: both;
+}
+
+{% endblock %}
+<!---->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-start mb-0">Form Layouts</h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#">Forms</a>
+                                    </li>
+                                    <li class="breadcrumb-item active"><a href="#">Form Layouts</a>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                    <div class="mb-1 breadcrumb-right">
+                        <div class="dropdown">
+                            <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
+                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="app-todo.html"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Todo</span></a><a class="dropdown-item" href="app-chat.html"><i class="me-1" data-feather="message-square"></i><span class="align-middle">Chat</span></a><a class="dropdown-item" href="app-email.html"><i class="me-1" data-feather="mail"></i><span class="align-middle">Email</span></a><a class="dropdown-item" href="app-calendar.html"><i class="me-1" data-feather="calendar"></i><span class="align-middle">Calendar</span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+
+<!--                -->
+
+                                <!-- Basic Horizontal form layout section start -->
+                <section id="basic-horizontal-layouts">
+                    <div class="row">
+                        <div class="col-md-10 col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Create a New Contest</h4>
+                                    </div>
+                                <div class="card-body">
+
+
+<!---->
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                <div class="row">
+        <div class="col-12">
+            <div class="mb-1">
+                <label class="" for="{{ field.auto_id }}">{{ form.name.label_tag }}</label>
+                {% render_field form.name class="form-control" placeholder=form.name.label %}
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-1">
+                <label class="" for="{{ field.auto_id }}">{{ form.photo.label }}</label>
+                {% render_field form.photo class="form-control" placeholder=form.photo.label %}
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-1">
+                <label class="" for="{{ field.auto_id }}">{{ form.brief_post.label }}</label>
+                {% render_field form.brief_post class="form-control" rows="2" placeholder=form.brief_post.label %}
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="mb-1">
+                {{ form.media }}
+                <div class="row"> <label class="" for="{{ field.auto_id }}">{{ form.post.label }}</label> </div>
+                {% render_field form.post class="form-control django-ckeditor-widget" placeholder=form.post.label %}
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="mb-1">
+                <div class="form-check">
+                    {% render_field form.cash_vote class="form-check-input" id="customCheck3" placeholder=form.cash_vote.label %}
+                    <label class="form-check-label" for="{{ field.auto_id }}">{{ form.cash_vote.label }}</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12">
+            <div class="mb-1">
+                <label class="" for="{{ field.auto_id }}">{{ form.vote_cost.label }}</label>
+                {% render_field form.vote_cost class="form-control" placeholder=form.vote_cost.label %}
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="mb-1">
+                <label class="" for="{{ field.auto_id }}">{{ form.category.label }}</label>
+                {% render_field form.category class="form-control" placeholder=form.category.label %}
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="mb-1">
+                <label class="" for="{{ field.auto_id }}">{{ form.start_date.label }}</label>
+                {% render_field form.start_date class="form-control" placeholder=form.start_date.label %}
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="mb-1">
+                <label class="" for="{{ field.auto_id }}">{{ form.end_date.label }}</label>
+                {% render_field form.end_date class="form-control" placeholder=form.end_date.label %}
+            </div>
+        </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary me-1">Save</button>
+                </div>
+
+                </div>
+
+            </form>
+                                    </div>
+
+</div>
+                        </div>
+
+        </div>
+    </div>
+    <!-- END: Content-->
+
+{% endblock %}

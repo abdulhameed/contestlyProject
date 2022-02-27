@@ -1,0 +1,356 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+
+    {% block page-css %}
+        form {
+          width: 300px;
+          margin: 0 auto;
+          text-align: center;
+          padding-top: 50px;
+        }
+
+        .value-button {
+            display: inline-block;
+            border: 1px solid #ddd;
+            margin: 0px;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+          text-align: center;
+          vertical-align: middle;
+          padding: 11px 0;
+          background: #eee;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        .value-button:hover {
+          cursor: pointer;
+        }
+
+    {% endblock %}
+
+{% block content %}
+
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content ecommerce-application">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-header row">
+<!--                -->
+                <div class="row text-center">
+                    {% if messages %}
+                        {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                        {% endfor %}
+                {% endif %}
+                </div>
+<!--                -->
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-start mb-0">Contestant</h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'contest:contest-list' %}">Contest List</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'contest:results' contestants.contest.id %}">Contest Details</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Contestant Details
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                    <div class="mb-1 breadcrumb-right">
+                        <div class="dropdown">
+                            <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
+                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Edit</span></a><a class="dropdown-item" href="#"><i class="me-1" data-feather="delete"></i><span class="align-middle">Delete</span></a> <a class="dropdown-item" href="#"><i class="me-1" data-feather="message-circle"></i><span class="align-middle">Chat</span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- app e-commerce details start -->
+                <section class="app-ecommerce-details">
+                    <div class="card">
+                        <!-- Product Details starts -->
+                        <div class="card-body">
+                            <div class="row my-2">
+                                <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img src="{{ contestants.photo.url }}" class="img-fluid product-img" alt="product image" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-7">
+                                    <h4>{{ contestants.name }}</h4>
+
+<!--                                     TODO: Fix Contest Link-->
+
+                                    <span class="card-text item-company"> <a href="{% url 'contest:results' contestants.id %}" class="company-name">{{ contestants.contest.name }}</a></span>
+                                    <div class="ecommerce-details-price d-flex flex-wrap mt-1">
+                                        <h4 class="item-price me-1">{% if contestants.contest.cash_vote %}
+
+                                                                        ₦ {{ contestants.contest.vote_cost }}
+
+                                                                        {% else %}
+
+                                                                        Free Vote
+
+                                                                        {% endif %}</h4>
+                                        <ul class="unstyled-list list-inline ps-1 border-start">
+                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                        </ul>
+                                    </div>
+                                    <p class="card-text">{{ contestants.votes }}  <span class="text-success">Votes</span></p>
+                                    <p class="card-text">
+                                        {{ contestants.brief_post }}
+                                    </p>
+
+                                    <hr />
+                                    <div class="product-color-options">
+                                        <h4>Vote</h4>
+
+
+
+                                        {% if contestants.contest.cash_vote %}
+
+                                            <div>
+                                            <form action="{% url 'contest:paid_vote_view' contestants.id %}" method="get" novalidate class="form-inline">
+                                                {% csrf_token %}
+                                                <div>
+
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input name="votes" value="1" class="custom-control-input fixed-vote form-check-input" id="1vote num-vote" type="radio">
+                                                        <label class="custom-control-label" for="1vote">1 Vote</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input name="votes" value="10" class="custom-control-input fixed-vote form-check-input" id="10vote num-vote" type="radio">
+                                                        <label class="custom-control-label" for="10vote">10 Vote</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input name="votes" value="100" class="custom-control-input fixed-vote form-check-input" id="100vote num-vote" type="radio">
+                                                        <label class="custom-control-label" for="100vote">100 Vote</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input name="votes" value="0" class="form-check-input custom-control-input custom-vote" id="custom" type="radio">
+                                                        <label class="custom-control-label form-check-label" for="custom">Custom Vote</label>
+                                                    </div>
+
+
+
+                                                            <div class="input-group bootstrap-touchspin custom-vote" style="display: none;">
+                                                                <hr>
+
+                                                            <span class="input-group-btn bootstrap-touchspin-injected">
+                                                            <button class="btn btn-primary bootstrap-touchspin-down" id="decrease" onclick="decreaseValue()" value="Decrease Value" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                            </span>
+
+                                                            <input type="number" maxlength="6" size="5" class="touchspin form-control custom-count" id="number" value="150">
+
+                                                            <span class="input-group-btn bootstrap-touchspin-injected">
+                                                            <button class="btn btn-primary bootstrap-touchspin-up" id="increase" onclick="increaseValue()" value="Increase Value" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                            </span>
+
+                                                            </div>
+                                                                        <hr>
+
+                                                    <button class="btn btn-primary" type="submit">Vote</button>
+
+                                            <div class="btn-group dropdown-icon-wrapper btn-share">
+                                            <button type="button" class="btn btn-icon hide-arrow btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i data-feather="share-2"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="facebook"></i>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="twitter"></i>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="youtube"></i>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="instagram"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+                                            </div>
+                                            </form>
+
+                                            </div>
+                                                {% else %}
+                                            <div>
+                                                <a class="btn btn-primary" href="{% url 'contest:contestant_vote' contestants.id %}" role="button">Vote</a>
+
+                                            </div>
+
+                                        {% endif %}
+
+
+
+                                    </div>
+                                    <hr>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product Details ends -->
+
+                        <!-- Item features starts -->
+                       <div class="item-features">
+
+                        </div>
+                        <!-- Item features ends -->
+
+                        <!-- Related Products starts -->
+                        <div class="card-body">
+                            <div class="mt-4 mb-2 text-center">
+                                <h4>Contestant Details</h4>
+                                <p class="card-text"> {{ contestants.post|safe }} </p>
+                            </div>
+
+                        </div>
+                        <!-- Related Products ends -->
+                    </div>
+                </section>
+                <!-- app e-commerce details end -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+
+<div style="padding-top: 30px;" class="row"></div>
+                        <!-- Item features ends -->
+
+
+                    </div>
+                </section>
+                <!-- app e-commerce details end -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+
+
+
+
+
+<!--# Temp Space-->
+
+
+      <!-- Product Details Section End -->
+
+
+
+<!--# Show Custom Vote Div-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+</script>
+
+
+{% block js %}
+
+<script>
+<!--This shows the number input and touch-spin div when Custom votes is clicked-->
+
+    $(document).ready(function() {
+    $("input[id$='custom']").click(function() {
+        var trig = $(this).val();
+
+        $("div.custom-vote").show();
+
+    });
+
+<!--This hides the number input and touch-spin div when a fixed vote is clicked using DIV class 'fixed-vote'-->
+
+    $("input[class$='fixed-vote']").click(function() {
+        var trig = $(this).val();
+
+        $("div.custom-vote").hide();
+
+    });
+
+    $('.custom-count').change(function() {
+    $('input.custom-vote:radio').val($(this).val())
+})
+
+});
+
+<!---->
+setInterval(function(){
+    //code goes here that will be run every 5 seconds.
+}, 5000);
+
+<!---->
+
+<!--Touch-spin increase Value-->
+
+    function increaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value++;
+      document.getElementById('number').value = value;
+
+      document.getElementById("custom").value = value + ""
+    }
+
+<!--Touch-spin decrease Value-->
+
+    function decreaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value < 1 ? value = 1 : '';
+      value--;
+      document.getElementById('number').value = value;
+
+      document.getElementById("custom").value = value + ""
+    }
+
+    </script>
+
+
+{% endblock %}
+<!--Custom Integer value manipulator-->
+<script>
+<!--This hides the number input and touch-spin div when a fixed vote is clicked using DIV id "num-vote"-->
+
+    $("input[id$='num-vote']").click(function() {
+        var trig = $(this).val();
+
+        $("div.custom-vote").hide();
+
+    });
+
+</script>
+
+{% endblock %}

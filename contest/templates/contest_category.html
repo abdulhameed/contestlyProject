@@ -1,0 +1,69 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+{% block content %}
+  <h1 class="text-center mb-3">{{ cats }}</h1>
+
+  {% if contest_category %}
+
+    {% for contest in contest_category %}
+
+<!---->
+
+
+                                <!-- Single Popular Car Start -->
+                                <div class="col-lg-4 col-md-6 hat sedan">
+                                    <div class="single-popular-car">
+                                        <div class="p-car-thumbnails">
+                                            <a class="car-hover" href="{% url 'contest:results' contest.id %}">
+                                                <img src="{{ contest.photo.url }}" alt="Car Photo" style="width:330px;height:206.25px;">
+                                            </a>
+                                        </div>
+
+                                        <div class="p-car-content">
+                                            <h3 style="width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                <a href="{% url 'contest:results' contest.id %}"> {{ contest.name }} </a>
+                                                <span class="price"><i class="fa fa-tag"></i>
+                                                  {% if cash_vote %}
+                                                  ₦{{ contest.vote_cost }}/Vote</span>
+                                                  {% else %}
+                                                  FREE
+                                                  {% endif %}
+                                            </h3>
+
+                                            <h5>{{contest.start_date}} - {{contest.end_date}}</h5>
+
+                                            <div class="p-car-feature">
+                                                <a href="#">{{ contest.category }}</a>
+                                                <a href="#">|</a>
+                                                <a href="#">|</a>
+                                            </div>
+                                        </div>
+                                        <!-- BUTTON TO TRIGGER THE RENT REQUEST MODAL FORM -->
+                                        <p>
+
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <!-- Single Popular Car End -->
+
+
+<!---->
+
+
+      <div class="card mb-3">
+        <div class="card-body">
+          <p class="lead">{{ contest.name }}</p>
+          <p>{{ contest.post|safe }}</p>
+
+          <a href="{% url 'contest:results' contest.id %}" class="btn btn-primary btn-sm">View Contest</a>
+
+
+
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No Contest available</p>
+  {% endif %}
+{% endblock %}

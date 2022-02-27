@@ -1,0 +1,219 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+{% block page-css %}
+  .art-work{
+    width:100%;
+    max-width:550px;
+    }
+{% endblock %}
+
+
+{% block content %}
+
+<!---->
+
+
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content ecommerce-application">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-start mb-0">Contest </h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'contest:contest-list' %}">Contest List</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Details
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                    <div class="mb-1 breadcrumb-right">
+                        <div class="dropdown">
+                            <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="app-todo.html">
+                                    <i class="me-1" data-feather="check-square">
+
+                                    </i>
+                                    <span class="align-middle">Edit</span>
+                                </a>
+                                <a class="dropdown-item" href="app-chat.html">
+                                    <i class="me-1" data-feather="delete"></i>
+                                    <span class="align-middle">Delete</span>
+                                </a>
+                                <a class="dropdown-item" href="app-email.html">
+                                    <i class="me-1" data-feather="message-circle"></i>
+                                    <span class="align-middle">Chat</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- app e-commerce details start -->
+                <section class="app-ecommerce-details">
+                    <div class="card">
+                        <!-- Product Details starts -->
+                        <div class="card-body">
+                            <div class="row my-2">
+                                <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img src="{{ contest.photo.url }}" class="img-fluid product-img" alt="product image" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-7">
+                                    <h4>{{ contest.name }}</h4>
+                                    <span class="card-text item-company">By <a href="#" class="company-name">User</a></span>
+                                    <div class="ecommerce-details-price d-flex flex-wrap mt-1">
+                                        <h4 class="item-price me-1">{% if contest.cash_vote %}
+
+                                                                        ₦ {{ contest.vote_cost }}
+
+                                                                        {% else %}
+
+                                                                        Free Vote
+
+                                                                        {% endif %}</h4>
+                                        <ul class="unstyled-list list-inline ps-1 border-start">
+                                            <li class="ratings-list-item">From: {{ contest.start_date }} </li>
+                                            <li class="ratings-list-item"> </li> <br>
+                                            <li class="ratings-list-item">To: {{ contest.end_date }} </li>
+                                            <li class="ratings-list-item"> </li>
+                                            <li class="ratings-list-item"> </li>
+                                        </ul>
+                                    </div>
+                                    <p class="card-text"> <strong>{{ contest.days_left|naturalday }}</strong> - <span class="text-success">Days left</span></p>
+                                    <p class="card-text">
+                                        {{ contest.brief_post }}
+                                    </p>
+                                    <hr />
+
+                                    <p class="card-text">
+                                        {{ contest.post|safe }}
+                                    </p>
+
+
+
+                                    <div class="product-color-options">
+
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-inline-block selected">
+                                                <div class="color-option b-primary">
+                                                    <div class="filloption bg-primary"></div>
+                                                </div>
+                                            </li>
+                                            <li class="d-inline-block">
+                                                <div class="color-option b-success">
+                                                    <div class="filloption bg-success"></div>
+                                                </div>
+                                            </li>
+                                            <li class="d-inline-block">
+                                                <div class="color-option b-danger">
+                                                    <div class="filloption bg-danger"></div>
+                                                </div>
+                                            </li>
+                                            <li class="d-inline-block">
+                                                <div class="color-option b-warning">
+                                                    <div class="filloption bg-warning"></div>
+                                                </div>
+                                            </li>
+                                            <li class="d-inline-block">
+                                                <div class="color-option b-info">
+                                                    <div class="filloption bg-info"></div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <hr />
+                                    <div class="d-flex flex-column flex-sm-row pt-1">
+                                        <a href="{% url 'contest:new-contestant' contest.id %}" class="btn btn-primary me-0 me-sm-1 mb-1 mb-sm-0">
+                                            <i data-feather="shopping-cart" class="me-50"></i>
+                                            <span class="">New Contestant</span>
+                                        </a>
+
+                                        <div class="btn-group dropdown-icon-wrapper btn-share">
+                                            <button type="button" class="btn btn-icon hide-arrow btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i data-feather="share-2"></i>
+                                                Share </button>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="facebook"></i>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="twitter"></i>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="youtube"></i>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i data-feather="instagram"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <!-- Product Details ends -->
+
+                        <!-- Item features starts -->
+                        <div class="item-features">
+
+                        </div>
+                        <!-- Item features ends -->
+
+                        <!-- Related Products starts -->
+                        <div class="card-body">
+                            <div class="mt-4 mb-2 text-center">
+                                <h4>Contest Details and Rules</h4>
+                                <p class="card-text"> {{ contest.post|safe }} </p>
+                            </div>
+
+                        </div>
+                        <!-- Related Products ends -->
+                    </div>
+                </section>
+                <!-- app e-commerce details end -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+
+<div style="padding-top: 30px;" class="row"></div>
+
+
+
+<h3 class="mb-5 text-center">vote for a contestant below</h3>
+
+<ul class="list-group mb-5">
+	{% for contestant in contest.participating_contest.all %}
+	<li class="list-group-item d-flex justify-content-between align-items-center">
+		<a href="{% url 'contest:contestant-detail' contestant.id %}">
+			<img class="img-circle img-user img-thumbnail"  width="60" height="60" src="{{ contestant.photo.url }}">
+		{{ contestant.name }}   </a>
+        <span style="color: red;" class="badge badge-danger float-right">{{ contestant.votes }} vote{{ contestant.votes | pluralize }}</span>
+
+	</li>
+	{% endfor %}
+</ul>
+
+
+{% endblock %}
