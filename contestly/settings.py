@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'paystackapi',
     'django_seed',
     'widget_tweaks',
-    'django_feather',
 ]
 
 MIDDLEWARE = [
