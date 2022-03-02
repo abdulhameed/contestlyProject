@@ -5,6 +5,7 @@ __pycache__
 myvenv
 db.sqlite3
 #/static
+/staticfiles
 /media
 .DS_Store  
 # Project exclude paths
